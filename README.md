@@ -5,7 +5,8 @@
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://python.org)
 [![LangGraph](https://img.shields.io/badge/LangGraph-0.2-purple.svg)](https://langchain-ai.github.io/langgraph/)
-[![Claude](https://img.shields.io/badge/Claude-claude--opus--4-orange.svg)](https://anthropic.com)
+[![Groq](https://img.shields.io/badge/Groq-Llama3.3--70b-orange.svg)](https://console.groq.com)
+[![Anthropic](https://img.shields.io/badge/Anthropic-optional-lightgrey.svg)](https://anthropic.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
@@ -84,14 +85,23 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Configure
+### 2. Get a Free Groq API Key
+
+1. Go to **[console.groq.com](https://console.groq.com)** → Sign up (Google login works)
+2. **API Keys** → Create API key → Copy the `gsk_...` key
+3. No credit card needed. Free tier is generous.
+
+### 3. Configure
 
 ```bash
 cp .env.example .env
-# Edit .env and add your ANTHROPIC_API_KEY
+# Open .env and set: GROQ_API_KEY=gsk_your_key_here
 ```
 
-### 3. Run (choose your interface)
+> **Other providers:** Set `LLM_PROVIDER=anthropic` + `ANTHROPIC_API_KEY=...` to use Claude,
+> or `LLM_PROVIDER=ollama` to run fully local with no API key at all.
+
+### 4. Run (choose your interface)
 
 **Option A — Streamlit UI (recommended for first run)**
 ```bash

@@ -1,11 +1,12 @@
 # Core LangGraph + LangChain (let pip resolve compatible versions)
 langgraph>=0.2.66
 langchain>=0.3.0
-langchain-anthropic>=0.3.0
+langchain-groq>=0.1.0
 langchain-community>=0.3.0
 
-# Anthropic SDK (direct usage for tool use patterns)
-anthropic>=0.40.0
+# Optional: Anthropic (uncomment if you have an API key)
+# langchain-anthropic>=0.3.0
+# anthropic>=0.40.0
 
 # API layer
 fastapi>=0.115.0

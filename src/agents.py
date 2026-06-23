@@ -14,25 +14,54 @@ import json
 from datetime import datetime
 from typing import Any
 
-from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.language_models.chat_models import BaseChatModel
 
 from .state import WorkflowState
 from .tools import RESEARCH_TOOLS, DOCUMENT_TOOLS, CODE_TOOLS, REPORT_TOOLS
 from .config import config
 
 
-# ─── LLM Initialization ───────────────────────────────────────────────────────
+# ─── LLM Factory ──────────────────────────────────────────────────────────────
 
-def _get_llm(fast: bool = False) -> ChatAnthropic:
-    """Get a ChatAnthropic instance. Use fast=True for classification tasks."""
-    model = config.FAST_MODEL_NAME if fast else config.MODEL_NAME
-    return ChatAnthropic(
-        model=model,
-        api_key=config.ANTHROPIC_API_KEY,
-        max_tokens=4096,
-        temperature=0,
+def _get_llm(fast: bool = False) -> BaseChatModel:
+    """
+    Provider-agnostic LLM factory.
+    Reads LLM_PROVIDER from config and returns the appropriate chat model.
+    Supports: groq (default), anthropic, ollama.
+    """
+    model = config.get_fast_model_name() if fast else config.get_model_name()
+    provider = config.LLM_PROVIDER
+
+    if provider == "groq":
+        from langchain_groq import ChatGroq
+        return ChatGroq(
+            model=model,
+            api_key=config.GROQ_API_KEY,
+            temperature=0,
+            max_tokens=4096,
+        )
+
+    if provider == "anthropic":
+        from langchain_anthropic import ChatAnthropic
+        return ChatAnthropic(
+            model=model,
+            api_key=config.ANTHROPIC_API_KEY,
+            max_tokens=4096,
+            temperature=0,
+        )
+
+    if provider == "ollama":
+        from langchain_community.chat_models import ChatOllama
+        return ChatOllama(
+            model=model,
+            base_url=config.OLLAMA_BASE_URL,
+            temperature=0,
+        )
+
+    raise ValueError(
+        f"Unsupported LLM_PROVIDER: '{provider}'. "
+        "Choose from: groq, anthropic, ollama"
     )
 
 

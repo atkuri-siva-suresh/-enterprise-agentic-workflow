@@ -32,7 +32,7 @@ config.validate()
 
 app = FastAPI(
     title="Enterprise Agentic Workflow",
-    description="Multi-agent AI orchestration system built with LangGraph and Claude",
+    description="Multi-agent AI orchestration system built with LangGraph + Groq (Llama 3.3) / Claude",
     version="1.0.0",
 )
 

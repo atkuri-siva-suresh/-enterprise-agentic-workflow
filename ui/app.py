@@ -77,6 +77,9 @@ if "thread_id" not in st.session_state:
     import uuid
     st.session_state.thread_id = str(uuid.uuid4())[:8]
 
+if "task_input_value" not in st.session_state:
+    st.session_state.task_input_value = ""
+
 
 # ─── Sidebar ──────────────────────────────────────────────────────────────────
 
@@ -128,7 +131,7 @@ with st.sidebar:
             st.session_state.pending_approval = None
             st.rerun()
 
-        st.caption(f"Model: `{config.MODEL_NAME}`")
+        st.caption(f"Model: `{config.get_model_name()}`")
         st.caption(f"LangSmith: {'Enabled' if config.is_langsmith_enabled() else 'Disabled'}")
 
 
