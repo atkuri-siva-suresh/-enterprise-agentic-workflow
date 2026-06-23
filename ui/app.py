@@ -151,19 +151,17 @@ example_tasks = {
     col4: ("Report", "Create an executive summary for Q4 AI initiative status: 3 projects on track, 1 delayed due to data quality issues, budget 85% utilized"),
 }
 
-selected_example = None
 for col, (label, task) in example_tasks.items():
     with col:
         if st.button(f"{label} Example", use_container_width=True):
-            selected_example = task
+            st.session_state["task_input"] = task
+            st.rerun()
 
 # ── Task Input ────────────────────────────────────────────────────────────────
 st.divider()
 
-default_input = selected_example or ""
 user_input = st.text_area(
     "Enter your task or question",
-    value=default_input,
     height=100,
     placeholder="Ask anything: research a topic, analyze a document, review code, generate a report...",
     key="task_input",
@@ -174,6 +172,7 @@ with col_run:
     run_button = st.button("Run Task", type="primary", use_container_width=True)
 with col_clear:
     if st.button("Clear", use_container_width=False):
+        st.session_state["task_input"] = ""
         st.rerun()
 
 
